@@ -76,6 +76,7 @@ int playAgain() {
 
 void playGame() {
     int play = 1;
+    int sys = 0;
 
     while (play) {
         struct Deck* deck = createDeck();
@@ -131,8 +132,15 @@ void playGame() {
                 int playerScore = scoreCheck(playerCards, playerNumCards);
                 if (isBust(playerScore)) {
                     printf("\nVous avez depasse 21. Vous perdez !\n");
+                    int playerScore = scoreCheck(playerCards, playerNumCards);
+                    int dealerScore = scoreCheck(dealerCards, dealerNumCards);
+                    printf("\nScore final du joueur : %d\n", playerScore);
+                    printf("\nScore final du croupier : %d\n", dealerScore);
+                    printf("\nLe croupier a gagne la partie.\n");
                     play = playAgain();
                     playerTurn = false;
+                    sys = 1;
+
 
                 }
             } else {
@@ -142,25 +150,28 @@ void playGame() {
 
         if (!play) continue;
 
-        printf("\nC'est au tour du croupier.\n");
-        while (scoreCheck(dealerCards, dealerNumCards) < 17) {
-            popCardFromDeck(deck, 0, &dealerCards[dealerNumCards++]);
-            char* cardStr = cardToString(dealerCards[dealerNumCards - 1]);
-            printf("\nLe croupier a pioche la carte suivante : %s\n", cardStr);
-            free(cardStr);
+
+        if (sys == 0) {
+            printf("\nC'est au tour du croupier.\n");
+            while (scoreCheck(dealerCards, dealerNumCards) < 17) {
+                popCardFromDeck(deck, 0, &dealerCards[dealerNumCards++]);
+                char* cardStr = cardToString(dealerCards[dealerNumCards - 1]);
+                printf("\nLe croupier a pioche la carte suivante : %s\n", cardStr);
+                free(cardStr);
+            }
+
+            int playerScore = scoreCheck(playerCards, playerNumCards);
+            int dealerScore = scoreCheck(dealerCards, dealerNumCards);
+            printf("\nScore final du joueur : %d\n", playerScore);
+            printf("\nScore final du croupier : %d\n", dealerScore);
+
+            if (determineWinner(playerCards, playerNumCards, dealerCards, dealerNumCards)) {
+                printf("\nVous avez gagne la partie !\n");
+            } else {
+                printf("\nLe croupier a gagne la partie.\n");
+            }
+
+            play = playAgain();
         }
-
-        int playerScore = scoreCheck(playerCards, playerNumCards);
-        int dealerScore = scoreCheck(dealerCards, dealerNumCards);
-        printf("\nScore final du joueur : %d\n", playerScore);
-        printf("\nScore final du croupier : %d\n", dealerScore);
-
-        if (determineWinner(playerCards, playerNumCards, dealerCards, dealerNumCards)) {
-            printf("\nVous avez gagne la partie !\n");
-        } else {
-            printf("\nLe croupier a gagne la partie.\n");
-        }
-
-        play = playAgain();
     }
 }
