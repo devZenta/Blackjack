@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 struct DeckElement* GetElementAt(struct Deck* deck, int index) {
     if(index < 0 || index >= getNbCardInDeck(deck)) {
@@ -104,4 +105,34 @@ bool popCardFromDeck(struct Deck *deck, int index, struct Card *card) {
         return removeCardFromDeck(deck, index);
     }
     return false;
+}
+
+bool shuffleDeck(struct Deck* deck) {
+    if (deck == NULL) {
+        return false;
+    }
+    srand(time(NULL));
+    struct Deck* temp = createDeck();
+    struct Card card;
+    while(getNbCardInDeck(deck) > 0) {
+        popCardFromDeck(deck, rand() % getNbCardInDeck(deck), &card);
+        addCardToDeck(temp, card);
+    }
+    deck->first = GetElementAt(temp, 0);
+    free(temp);
+
+    return true;
+}
+
+void createAllCardForColor(struct Deck *deck, enum CardColor color) {
+    for(int i = 1; i < 14; i++) {
+        addCardToDeck(deck, (struct Card){i, color});
+    }
+}
+
+void initDeck(struct Deck *deck) {
+    createAllCardForColor(deck, SPADES);
+    createAllCardForColor(deck, CLUBS);
+    createAllCardForColor(deck, HEARTS);
+    createAllCardForColor(deck, DIAMOND);
 }

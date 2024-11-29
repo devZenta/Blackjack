@@ -30,7 +30,7 @@ char* cardColorToString(enum CardColor c) {
         case SPADES:  return "PIQUE";
         case CLUBS:   return "TREFLE";
         case HEARTS:  return "COEUR";
-        case DIAMOND: return "CAREAU";
+        case DIAMOND: return "CARREAU";
         default : return "INCONUS";
     }
 }

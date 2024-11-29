@@ -7,4 +7,6 @@ add_executable(BlackJack main.c
         Deck.c
         Deck.h
         Card.c
-        Card.h)
+        Card.h
+        Game.c
+        Game.h)

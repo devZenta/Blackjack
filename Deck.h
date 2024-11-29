@@ -26,5 +26,8 @@ bool removeCardFromDeck(struct Deck* deck, int index);
 bool getCardFromDeck(struct Deck* deck, int index, struct Card * card);
 int  getNbCardInDeck(struct Deck* deck);
 bool popCardFromDeck(struct Deck* deck, int index, struct Card * card);
+bool shuffleDeck(struct Deck *deck);
+void createAllCardForColor(struct Deck *deck, enum CardColor color);
+void initDeck(struct Deck *deck);
 
 #endif //DECK_H
